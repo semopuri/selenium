@@ -1,0 +1,43 @@
+version: '3'
+services:
+  hub:
+    build:
+      context: hub/
+      args:
+        VERSION: "latest"
+    volumes:
+      - ./hub/config/:/tmp/:ro
+    ports:
+      - "4444:4444"
+    environment:
+      ENV: "test"
+    networks:
+      - selenium
+
+  node-chrome:
+    build:
+      context: node-chrome/
+      args:
+        VERSION: "latest"
+    volumes:
+      - ./node-chrome/config/:/tmp/:ro
+    environment:
+      ENV: "test"
+    networks:
+      - selenium
+
+  node-firefox:
+    build:
+      context: node-firefox/
+      args:
+        VERSION: "latest"
+    volumes:
+      - ./node-firefox/config/:/tmp/:ro
+    environment:
+      ENV: "test"
+    networks:
+      - selenium
+
+networks:
+  selenium:
+    driver: bridge
